@@ -1,1 +1,0 @@
-# NonlinearSystem-Newton-s-method
