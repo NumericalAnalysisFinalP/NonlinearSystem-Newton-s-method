@@ -35,8 +35,7 @@ x3 = 0
 x4 = 0
 x5 = 0
 x6 = 0
-epsilon = 0.01
-tol = 5*10**-6 # iteration max limit
+epsilon = 5*10**-6 # iteration max limit
 converged = False
 
 x_old = np.array([x1, x2, x3, x4, x5, x6])
