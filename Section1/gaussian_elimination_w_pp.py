@@ -17,7 +17,6 @@ import numpy as np
 %     output:
 %             x       solution vector (i.e., vector for which Ax = b)
 %
-
 %
 """
 def part_piv_ge(A,b):
@@ -43,9 +42,7 @@ def part_piv_ge(A,b):
             m = -A[j,i] / aii; #multiplier
             A[j,i] = 0;
             A[j, i+1:nrow] = A[j, i+1:nrow] + m*A[i, i+1:nrow];
-            print(A[j, i+1:nrow]);
             b[j] = b[j] + m*b[i];
-            print(b[j])
             
     #  back substitution
     
