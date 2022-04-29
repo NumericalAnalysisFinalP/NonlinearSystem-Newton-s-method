@@ -1,56 +1,55 @@
+import numpy as np
 from numpy import array
 from numpy import linalg as LA
 from numpy import inf
-import numpy as np
-import copy
 
-# given linear system
+ITERATION_LIMIT = 1000
 
+# initialize the matrix
 A = array(
-[[4.0, -1, 0, -2, 0, 0], 
-[-1, 4, -1, 0, -2, 0], 
-[0, -1, 4, 0, 0, -2], 
-[-1, 0, 0, 4, -1, 0], 
-[0, -1, 0, -1, 4, -1], 
-[0, 0, -1, 0, -1, 4]])
+    [[4.0, -1, 0, -2, 0, 0], 
+    [-1, 4, -1, 0, -2, 0], 
+    [0, -1, 4, 0, 0, -2], 
+    [-1, 0, 0, 4, -1, 0], 
+    [0, -1, 0, -1, 4, -1], 
+    [0, 0, -1, 0, -1, 4]])
 b = array([-1.0,0,1,-2,1,2])
 
-m   = len(b)
-x   = array([0.0,0,0,0,0,0]) # initial vector
-tol = 5*10**-6
 
+n = 0
+# prints the system
+print("System:")
+for i in range(A.shape[0]):
+    row = ["{}*x{}".format(A[i, j], j + 1) for j in range(A.shape[1])]
+    print(f'{" + ".join(row)} = {b[i]}')
+print()
 
-converged = False
+x = np.zeros_like(b)
+for it_count in range(ITERATION_LIMIT):
+    if it_count != 0:
+        print("Iteration {0}: {1}".format(it_count, x))
+    x_new = np.zeros_like(x)
 
-n  = 0  #iteration counter
+    for i in range(A.shape[0]):
+        s1 = np.dot(A[i, :i], x[:i])
+        s2 = np.dot(A[i, i + 1:], x[i + 1:])
+        x_new[i] = (b[i] - s1 - s2) / A[i, i]
+        if x_new[i] == x_new[i-1]:
+          break
 
-x0 = copy.copy(x)
-xn = 1 # dummy initial tolerance
+    if np.allclose(x, x_new, atol=5e-6, rtol=0.):
+        break
 
+    x = x_new
 
-print('Iteration results')
-print('k,    x1,     x2,     x3,     x4,      x5,      x6')
+    # Number of iterations for Jacobi
 
-while xn > tol:
-
-    
-    x[0] = (b[0] - ( A[0,1]*x0[1] ) )/A[0,0]
-    
-    for i in range(1,m-1):
-        x[i] = ( b[i]- ( A[i, i-1]*x0[i-1] + A[i,i+1]*x0[i+1] ) )/A[i,i]
-        
-    x[m-1] = (b[m-1] - ( A[m-1,m-2]*x0[m-2] ) )/A[m-1,m-1]
-
-    
-    xn = LA.norm(x-x0,1) 
-    #xn = LA.norm(x-x0,2) 
-    #xn = LA.norm(x-x0,inf)
-    x0 = copy.copy(x)
+    xn = LA.norm(x-it_count,inf)
     n = n + 1
-    
-    # check if it is smaller than threshold
-    #dx = np.sqrt(np.dot(x-x0, x-x0))
-    
-    
-print(f" Number of iterations for Jacobi = {n}")  
-print(f"approximate x = {x}")      
+
+print("Solution: ")
+print(x)
+error = np.dot(A, x) - b
+print("Error:")
+print(error)
+print(f" Number of iterations for Jacobi = {n}")      
