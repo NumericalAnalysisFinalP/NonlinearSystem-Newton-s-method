@@ -34,20 +34,22 @@ A = array([
 # initialize the b vector
 b = array([-1.0,0,1,-2,1,2])
 
-
 n = 0 #iteration counter
+tol = 5e-6
+converged = False
 
-# prints the equations of the linear system (input)
+# prints the equations of the linear system ( the input)
 print("System of equations:")
 for i in range(A.shape[0]):
     row = ["{}*x{}".format(A[i, j], j + 1) for j in range(A.shape[1])]
+    #printing the number iterations until the tol is met
     print(f'{" + ".join(row)} = {b[i]}')
 print()
 
 # initial vector
 x = np.zeros_like(b)
 
-# Jacobi method
+# Jacobi method 
 for it_count in range(ITERATION_LIMIT):
     if it_count != 0:
         print("Iteration {0}: {1}".format(it_count, x))
@@ -69,9 +71,11 @@ for it_count in range(ITERATION_LIMIT):
     xn = LA.norm(x-it_count,inf)
     n = n + 1
 
+    
+
 # Output
 print("approximate x = {0}".format(x))
 error = np.dot(A, x) - b
 print("Error:")
 print(error)
-print(f" Number of iterations for Jacobi = {n}")      
+
