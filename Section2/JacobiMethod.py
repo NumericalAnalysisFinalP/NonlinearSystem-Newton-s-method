@@ -34,14 +34,16 @@ A = array([
 # initialize the b vector
 b = array([-1.0,0,1,-2,1,2])
 
-n = 0 #iteration counter
-tol = 5e-6
-converged = False
+# assigning some variables that will be used in the functions
+n  = 0  #iteration counter
+tol = 5e-6 # iterations should terminate when my iterantions falls bellow 5 X 10^-6
+converged = False # for convergence test
 
-# prints the equations of the linear system ( the input)
+# prints the equations of the linear system A for the User (input)
 print("System of equations:")
 for i in range(A.shape[0]):
     row = ["{}*x{}".format(A[i, j], j + 1) for j in range(A.shape[1])]
+    
     #printing the number iterations until the tol is met
     print(f'{" + ".join(row)} = {b[i]}')
 print()
@@ -50,9 +52,9 @@ print()
 x = np.zeros_like(b)
 
 # Jacobi method 
-for it_count in range(ITERATION_LIMIT):
-    if it_count != 0:
-        print("Iteration {0}: {1}".format(it_count, x))
+for i_t in range(ITERATION_LIMIT): # i_t = iterations coiunt 
+    if i_t != 0: # iteration count is not equal to 0
+        print("Iteration {0}: {1}".format(i_t, x))
     x_new = np.zeros_like(x)
 
     for i in range(A.shape[0]):
@@ -68,7 +70,7 @@ for it_count in range(ITERATION_LIMIT):
     x = x_new
 
     # Number of iterations for Jacobi
-    xn = LA.norm(x-it_count,inf)
+    xn = LA.norm(x-i_t,inf)
     n = n + 1
 
     

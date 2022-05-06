@@ -5,9 +5,7 @@ import numpy as np
 
 """
 %Gauss-Seidel   Use both the Jacobi method and the Gauss-Seidel method to solve the indicated linear system of equations.
-%             iu
 %             
-%
 %     inputs:
 %             A       coefficient matrix for linear system
 %                     (matrix must be square)
@@ -32,21 +30,24 @@ A = array([
 # initialize the b vector
 b = array([-1.0,0,1,-2,1,2])
 
+# assigning some variables that will be used in the functions
 n  = 0  #iteration counter
-tol = 5e-6
-converged = False
-# Find diagonal coefficients
-diag = np.diag(np.abs(A)) 
+tol = 5e-6 # iterations should terminate when my iterantions falls bellow 5 X 10^-6
+converged = False # for convergence test
 
-# Find row sum without diagonal
-off_diag = np.sum(np.abs(A), axis=1) - diag 
 
-if np.all(diag >= off_diag):
+# testing if A is diagonally dominant
+diag = np.diag(np.abs(A)) # Find diagonal coefficients
+
+off_diag = np.sum(np.abs(A), axis=1) - diag # Find row sum without diagonal
+
+if np.all(diag >= off_diag): #printing the results of the calculation : if the sum of the other coefficients is smaller or larger than the highest magnitude of the diagonal coefficients the system will give us these 2 outputs
     print('matrix is diagonally dominant')
 else:
     print('NOT diagonally dominant')
 
-# prints the equations of the linear system (input)
+
+# prints the equations of the linear system A(input)
 print("System of equations:")
 for i in range(A.shape[0]):
     row = ["{0:3g}*x{1}".format(A[i, j], j + 1) for j in range(A.shape[1])]
@@ -56,8 +57,9 @@ for i in range(A.shape[0]):
 x = np.zeros_like(b)
 
 # Gauss-Seidel method
-for it_count in range(1, ITERATION_LIMIT):
-    x_new = np.zeros_like(x)
+for i in range(ITERATION_LIMIT):
+    x_new = np.zeros_like(x) # using initial vector
+
     print("Iteration {0}: {1}".format(it_count, x))
     
     for i in range(A.shape[0]):
