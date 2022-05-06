@@ -10,8 +10,11 @@
 2. Section 2: Jacobi method and the Gauss-Seidel 
 3. Section 3: Bicubic Interpolation
 
+This project utilizes Jupyter Notebook files. Code can also be copied into a Python file and run manually.
 
-
+Packages utilized:
+  NumPy (numpy.org)
+  SciPy (scipy.org)
 
 
 
